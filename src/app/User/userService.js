@@ -131,13 +131,43 @@ exports.editDiaryPush= async function (userIdx, diaryPush) {
     try {
         console.log(userIdx, diaryPush);
         const connection = await pool.getConnection(async (conn) => conn);
-        const editDiaryPushResult = await userDao.updateDiaryPush(connection, userIdx, diaryPush)
+        const editDiaryPushResult = await userDao.updateDiaryPush(connection, userIdx, diaryPush);
         connection.release();
 
         return response(baseResponse.SUCCESS);
 
     } catch (err) {
         logger.error(`App - editDiaryPush Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+}
+
+exports.editAnswerPush = async function (userIdx, answerPush) {
+    try {
+        console.log(userIdx, answerPush);
+        const connection = await pool.getConnection(async (conn) => conn);
+        const editAnswerPushResult = await userDao.updateAnswerPush(connection, userIdx, answerPush);
+        connection.release();
+
+        return response(baseResponse.SUCCESS);
+
+    } catch (err) {
+        logger.error(`App - editAnswerPush Service error\n: ${err.message}`);
+        return errResponse(baseResponse.DB_ERROR);
+    }
+}
+
+exports.editChatPush = async function (userIdx, chatPush) {
+    try {
+        console.log(userIdx, chatPush);
+        const connection = await pool.getConnection(async (conn) => conn);
+        const editChatPushResult = await userDao.updateChatPush(connection, userIdx, chatPush);
+        connection.release();
+
+        return response(baseResponse.SUCCESS);
+
+    } catch (err) {
+        logger.error(`App - editChatPush Service error\n: ${err.message}`);
         return errResponse(baseResponse.DB_ERROR);
     }
 }

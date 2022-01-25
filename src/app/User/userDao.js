@@ -2,9 +2,9 @@
 // 유저 생성
 async function insertUserInfo(connection, insertUserInfoParams) {
   const insertUserInfoQuery = `
-        INSERT INTO User(nickname, birthYear, gender)
-        VALUES (?, ?, ?);
-    `;
+    INSERT INTO User(nickname, birthYear, gender)
+    VALUES (?, ?, ?);
+  `;
   const insertUserInfoRow = await connection.query(
       insertUserInfoQuery,
       insertUserInfoParams
@@ -16,9 +16,9 @@ async function insertUserInfo(connection, insertUserInfoParams) {
 // 모든 유저 조회
 async function selectUser(connection) {
   const selectUserListQuery = `
-            SELECT nickname,birthYear, gender
-            FROM User;
-                `;
+    SELECT nickname,birthYear, gender
+    FROM User;
+  `;
   const [userRows] = await connection.query(selectUserListQuery);
   return userRows;
 }
@@ -37,11 +37,11 @@ async function selectUserNickname(connection, nickname) {
 // userId 회원 조회
 async function selectUserId(connection, userIdx) {
   const selectUserIdQuery = `
-                 SELECT  nickname, birthYear, diaryPush, answerPush, chatPush, profImg
-                 FROM User
-                 LEFT JOIN Push ON Push.useridx=User.useridx
-                 WHERE User.userIdx = ?;
-                 `;
+    SELECT  nickname, birthYear, diaryPush, answerPush, chatPush, profImg
+    FROM User
+           LEFT JOIN Push ON Push.useridx=User.useridx
+    WHERE User.userIdx = ?;
+  `;
   const [userRow] = await connection.query(selectUserIdQuery, userIdx);
   return userRow;
 }
@@ -51,9 +51,9 @@ async function selectUserId(connection, userIdx) {
 
 async function selectUserPassword(connection, selectUserPasswordParams) {
   const selectUserPasswordQuery = `
-        SELECT email, nickname, password
-        FROM User 
-        WHERE email = ? AND password = ?;`;
+    SELECT email, nickname, password
+    FROM User
+    WHERE email = ? AND password = ?;`;
   const selectUserPasswordRow = await connection.query(
       selectUserPasswordQuery,
       selectUserPasswordParams
@@ -90,7 +90,7 @@ async function updateUserStatus(connection,  userIdx, status) {
     UPDATE User
     SET status = 'INACTIVE'
     WHERE userIdx = ?;`;
-  const updateUserStatusRow = await connection.query(updateUserStatusQuery, status, userIdx);
+  const updateUserStatusRow = await connection.query(updateUserStatusQuery, [status, userIdx]);
   return updateUserStatusRow[0];
 }
 
@@ -104,6 +104,24 @@ async function updateDiaryPush(connection, userIdx, diaryPush) {
   return updateDiaryPushRow[0];
 }
 
+async function updateAnswerPush(connection, userIdx, answerPush){
+  const updateAnswerPushQuery = `
+    UPDATE Push
+    SET answerPush = ?
+    WHERE userIdx = ?;`;
+  const updateAnswerPushRow = await connection.query(updateAnswerPushQuery,[answerPush, userIdx]);
+  return updateAnswerPushRow[0];
+}
+
+async function updateChatPush(connection, userIdx, chatPush){
+  const updateChatPushQuery = `
+    UPDATE Push
+    SET chatPush = ?
+    WHERE userIdx = ?;`;
+  const updateChatPushRow = await connection.query(updateChatPushQuery,[chatPush, userIdx]);
+  return updateChatPushRow[0];
+}
+
 module.exports = {
   selectUser,
   selectUserNickname,
@@ -114,4 +132,6 @@ module.exports = {
   updateUserInfo,
   updateUserStatus,
   updateDiaryPush,
+  updateAnswerPush,
+  updateChatPush,
 };
