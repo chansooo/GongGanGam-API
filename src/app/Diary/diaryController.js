@@ -14,7 +14,8 @@ const fs = require('fs');
  */
 exports.getSharedDiarys = async function (req, res) {
 
-    const sharedDiaryResult = await diaryProvider.retrieveSharedDiaryList();
+    const userIdx = 1;
+    const sharedDiaryResult = await diaryProvider.retrieveSharedDiaryList(userIdx);
     return res.send(response(baseResponse.SUCCESS, sharedDiaryResult));
 
 };
@@ -37,13 +38,14 @@ exports.getAnswerList = async function (req, res) {
  * API Name : 받은 일기 조회 API
  * [GET] /app/diarys/share/:diaryIdx
  */
-exports.getSharedDiarys = async function (req, res) {
+exports.getSharedDiaryDetail = async function (req, res) {
 
     const diaryIdx = req.params.diaryIdx;
+    const userIdx = 1;
 
     //if (!diaryIdx) return res.send(errResponse(baseResponse.DIARY_DIARYIDX_EMPTY));
 
-    const sharedDiaryResult = await diaryProvider.retrieveSharedDiary(diaryIdx);
+    const sharedDiaryResult = await diaryProvider.retrieveSharedDiary(diaryIdx, userIdx);
     if (sharedDiaryResult.length<1) return res.send(errResponse(baseResponse.DIARY_DIARYIDX_NOT_EXIST));
     return res.send(response(baseResponse.SUCCESS, sharedDiaryResult));
 

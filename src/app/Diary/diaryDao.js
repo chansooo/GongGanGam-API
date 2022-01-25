@@ -35,32 +35,21 @@ async function selectDiaryAnswer(connection, diaryIdx) {
     return diaryInfo;
 }
 
-// 공유된 다이어리 리스트 가져오기
-async function selectShareList(connection) {
-    const selectDeliveryQuery = `
-        select DiaryShare.diaryIdx, Diary.userIdx, nickname as userNickname, profImg as userProfImg, contents as diaryContents,
-               date_format(diaryDate, '%y.%m.%d') as diaryDate, isRead
-        from DiaryShare join Diary on Diary.diaryIdx=DiaryShare.diaryIdx
-                        join User on Diary.userIdx = User.userIdx
-        where shareUserIdx=1 order by diaryDate;
-                `;
-    const [diaryInfo] = await connection.query(selectDeliveryQuery);
-    return diaryInfo;
-}
 
-async function selectShareList(connection, diaryIdx) {
+// 공유된 다이어리 리스트 조회(최종)
+async function selectShareDiaryList(connection, userIdx) {
     const selectAnswerQuery = `
         select DiaryShare.diaryIdx, Diary.userIdx, nickname as userNickname, profImg as userProfImg, contents as diaryContents,
                date_format(diaryDate, '%y.%m.%d') as diaryDate, isRead
         from DiaryShare join Diary on Diary.diaryIdx=DiaryShare.diaryIdx
                         join User on Diary.userIdx = User.userIdx
-        where shareUserIdx=1 order by diaryDate;
+        where shareUserIdx=? order by diaryDate;
                 `;
-    const [diaryInfo] = await connection.query(selectAnswerQuery, diaryIdx);
+    const [diaryInfo] = await connection.query(selectAnswerQuery, userIdx);
     return diaryInfo;
 }
 
-// 공유된 다이어리 가져오기
+// 공유된 다이어리 가져오기(최종)
 async function selectShareDiary(connection, diaryIdx) {
     const selectDeliveryQuery = `
         select Diary.userIdx, nickname as userNickname, profImg as userProfImg, diaryIdx,
@@ -194,8 +183,8 @@ async function checkDiaryExists(connection, diaryIdx) {
 }
 
 module.exports = {
-    selectMonthDiary, selectDiary, selectDiaryAnswer, selectShareList, selectShareDiary,
+    selectMonthDiary, selectDiary, selectDiaryAnswer,
     insertDiary, updateDiaryStatus, checkUserExists, checkDiaryExists, selectAnswer,
     selectDiaryDetail, selectAnswerDetail, insertAnswer, selectRandUser, updateDiary,
-    selectShareList,
+    selectShareDiaryList, selectShareDiary
 };

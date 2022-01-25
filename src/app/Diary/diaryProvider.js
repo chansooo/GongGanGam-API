@@ -33,9 +33,9 @@ exports.retrieveDiary = async function (year, month, day) {
     return diary;
 };
 
-exports.retrieveSharedDiaryList = async function () {
+exports.retrieveSharedDiaryList = async function (userIdx) {
     const connection = await pool.getConnection(async (conn) => conn);
-    const shareList = await diaryDao.selectShareList(connection);
+    const shareList = await diaryDao.selectShareDiaryList(connection, userIdx);
     const shareResult = {'diarys' : shareList}
 
     connection.release();
@@ -44,8 +44,9 @@ exports.retrieveSharedDiaryList = async function () {
 };
 
 exports.retrieveSharedDiary = async function (diaryIdx) {
+
     const connection = await pool.getConnection(async (conn) => conn);
-    const shareList = await diaryDao.selectShareList(connection, diaryIdx);
+    const shareList = await diaryDao.selectShareDiary(connection, diaryIdx);
 
     connection.release();
 
