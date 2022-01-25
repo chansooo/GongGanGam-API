@@ -65,7 +65,7 @@ exports.retrieveAnswerList = async function (userIdx) {
 exports.retrieveAnswer = async function (diaryIdx, userIdx) {
     const connection = await pool.getConnection(async (conn) => conn);
 
-    const diary = await diaryDao.selectDiaryDetail(diaryIdx);
+    const diary = await diaryDao.selectDiaryInfo(connection, diaryIdx);
     const params = [diaryIdx, userIdx];
     const answer = await diaryDao.selectAnswerDetail(connection, params);
     const result = {'diary' : diary, 'answer' : answer};
@@ -73,4 +73,22 @@ exports.retrieveAnswer = async function (diaryIdx, userIdx) {
     connection.release();
 
     return result;
+};
+
+exports.checkUser = async function (userIdx) {
+    const connection = await pool.getConnection(async (conn) => conn);
+    const user = await diaryDao.checkUserExists(connection, userIdx);
+
+    connection.release();
+
+    return user;
+};
+
+exports.checkDiary = async function (diaryIdx) {
+    const connection = await pool.getConnection(async (conn) => conn);
+    const diary = await diaryDao.checkDiaryExists(connection, diaryIdx);
+
+    connection.release();
+
+    return diary;
 };

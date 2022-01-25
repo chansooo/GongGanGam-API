@@ -87,14 +87,14 @@ async function selectAnswerDetail(connection, params) {
     return diaryInfo;
 }
 
-// 받은 답장 페이지에 다이어리 내용 가져오기
-async function selectDiaryDetail(connection, diaryIdx) {
-    const selectDeliveryQuery = `
+// 다이어리 조회(답장 조회)
+async function selectDiaryInfo(connection, diaryIdx) {
+    const selectAnswerQuery = `
         select diaryIdx, emoji, date_format(diaryDate, '%Y년 %c월 %e일') as diaryDate, contents as diaryContent
         from Diary
         where diaryIdx = ?;
                 `;
-    const [diaryInfo] = await connection.query(selectDeliveryQuery, diaryIdx);
+    const [diaryInfo] = await connection.query(selectAnswerQuery, diaryIdx);
     return diaryInfo;
 }
 
@@ -185,6 +185,6 @@ async function checkDiaryExists(connection, diaryIdx) {
 module.exports = {
     selectMonthDiary, selectDiary, selectDiaryAnswer,
     insertDiary, updateDiaryStatus, checkUserExists, checkDiaryExists, selectAnswer,
-    selectDiaryDetail, selectAnswerDetail, insertAnswer, selectRandUser, updateDiary,
-    selectShareDiaryList, selectShareDiary
+    selectAnswerDetail, insertAnswer, selectRandUser, updateDiary,
+    selectShareDiaryList, selectShareDiary, selectDiaryInfo
 };

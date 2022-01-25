@@ -58,6 +58,7 @@ module.exports = {
     DIARY_USER_INVALID : { "isSuccess": false, "code": 5007, "message": "수정할 권한이 없는 유저입니다."},
     ANSWER_ANSWERIDX_EMPTY : { "isSuccess": false, "code": 5008, "message": "answerIdx를 입력해주세요."},
     ANSWER_USERIDX_INVALID : { "isSuccess": false, "code": 5008, "message": "유저를 다시 확인해주세요."},
+    ANSWER_EMPTY : { "isSuccess": false, "code": 5009, "message": "답장이 존재하지 않습니다."},
 
     // 6000번 소연
 
