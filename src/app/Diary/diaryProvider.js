@@ -45,7 +45,7 @@ exports.retrieveSharedDiaryList = async function () {
 
 exports.retrieveSharedDiary = async function (diaryIdx) {
     const connection = await pool.getConnection(async (conn) => conn);
-    const shareList = await diaryDao.selectShareDiary(connection, diaryIdx);
+    const shareList = await diaryDao.selectShareList(connection, diaryIdx);
 
     connection.release();
 

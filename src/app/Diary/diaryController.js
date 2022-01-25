@@ -41,7 +41,7 @@ exports.getSharedDiarys = async function (req, res) {
 
     const diaryIdx = req.params.diaryIdx;
 
-    if (!diaryIdx) return res.send(errResponse(baseResponse.DIARY_DIARYIDX_EMPTY));
+    //if (!diaryIdx) return res.send(errResponse(baseResponse.DIARY_DIARYIDX_EMPTY));
 
     const sharedDiaryResult = await diaryProvider.retrieveSharedDiary(diaryIdx);
     if (sharedDiaryResult.length<1) return res.send(errResponse(baseResponse.DIARY_DIARYIDX_NOT_EXIST));
